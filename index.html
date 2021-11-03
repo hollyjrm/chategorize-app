@@ -13,6 +13,13 @@
 
 <body>
     <h1>Bubble Chat</h1>
+    <div id="message-container">
+        <ul id="messages"></ul>
+    </div>
+    <form id="form">
+        <input id="input" type="text" placeholder="Enter Message here:">
+        <button>Send</button>
+    </form>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
