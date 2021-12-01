@@ -1,0 +1,23 @@
+<%- include('partials/head'); %>
+
+    <body>
+        <%- include('partials/navbar'); %>
+            <h1> <img id="logo" src="logo.png"> Bubble Chat</h1>
+            <div>
+                Your name is: <h2 id="yourname">
+                    <%= currUser.username %>
+                </h2>
+            </div>
+            <div id="message-container">
+                <ul id="messages"></ul>
+            </div>
+
+            <div id="form-box">
+                <form id="form">
+                    <textarea id="input" type="text" placeholder="Enter Message here"></textarea>
+                    <button>Send</button>
+
+                </form>
+            </div>
+
+            <%- include('partials/footer'); %>
