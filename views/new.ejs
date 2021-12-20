@@ -1,0 +1,42 @@
+<%- include('partials/head'); %>
+
+    <body>
+
+        <%- include('partials/navbar'); %>
+            <h1 id="chategorize">
+                Chategorize
+            </h1>
+
+            <div>
+                <h2 id="tagline">Create New Room</h2>
+                <div class="row">
+                    <div class="col-4 offset-4">
+
+                        <form action="/chatname">
+                            <div class="mb-3">
+                                <label class="form-label" for="chatname"></label>
+                                <input class="form-control" type="text" id="chatname" name="chatname" maxlength="20"
+                                    placeholder="Chat name" required>
+
+                            </div>
+
+                            <button class="btn btn=success fancy-button">Create Room</button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+            <script type="text/javascript">
+                var field = document.querySelector('[name="chatname"]');
+
+                field.addEventListener('keyup', function (event) {
+                    var userName = field.value;
+                    userName = userName.replace(/\s/g, '');
+                    field.value = userName;
+                });
+
+            </script>
+
+            <script src="/query.js"></script>
+            <%- include('partials/footer'); %>

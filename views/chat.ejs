@@ -1,25 +1,47 @@
 <%- include('partials/head'); %>
 
     <body>
+
         <%- include('partials/navbar'); %>
-            <h1> <img id="logo" src="logo.png"> Bubble Chat</h1>
-            <div>
-                Your name is: <h2 id="yourname">
-                    <%= currUser.username %>
-                </h2>
+            <h1 id="chategorize">
+                Chategorize
+            </h1>
+
+            <div id="centered">
+                <table id="centered-links">
+                    <thead>
+                        <tr>
+                            <th colspan="2">
+                                <h2 id="yourname" class="personal-info">
+                                    <% let capital=currUser.username[0].toUpperCase() %>
+                                        <%= capital + currUser.username.slice(1) %> 's chats
+
+                                </h2>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="chatLinks">
+                        <% for (let chat of chats) { %>
+
+                            <% let chatName=chat.name.replace(/\s/g, "" ) %>
+                                <tr>
+
+                                    <td><a class="chat-titles" href="/chatname?chatname=<%=chatName %> ">
+                                            <%=chat.name %>
+                                        </a></td>
+
+                                </tr>
+                                <% } %>
+
+                                    <tr>
+                                        <td>
+                                            <a id="new-button" class="fancy-button" href="/new">New</a>
+
+                                        </td>
+                                    </tr>
+                    </tbody>
+                </table>
             </div>
-            <div id="message-container">
-                <ul id="messages"></ul>
-            </div>
-
-            <div id="form-box">
-                <form id="form">
-                    <textarea id="input" type="text" placeholder="Enter Message here"></textarea>
-                    <button>Send</button>
-
-                    <%- include('partials/emojis'); %>
-
-                </form>
             </div>
 
             <%- include('partials/footer'); %>

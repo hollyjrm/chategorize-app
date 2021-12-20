@@ -15,7 +15,7 @@ router.post('/register', catchAsync(async (req, res, next) => {
         const registeredUser = await User.register(user, password);
         req.login(registeredUser, err => {
             if (err) return next(err);
-            req.flash('success', 'Welcome to Bubble Chat!');
+            req.flash('success', 'Welcome to Chategorize!');
             res.redirect('/');
         })
 

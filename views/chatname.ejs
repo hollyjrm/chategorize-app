@@ -1,0 +1,83 @@
+<%- include('partials/head'); %>
+
+    <body>
+        <%- include('partials/navbar'); %>
+            <h1 id="chategorize">
+                Chategorize
+            </h1>
+            <div class="container-fluid">
+                <div class="row" id="main-page">
+
+                    <div id="room-info" class="col">
+                        <h3 id="yourname">
+                            <%= currUser.username %>
+                        </h3>
+
+                        <h4 id="this-room-is">This Room is:</h4>
+                        <h3 id="chat-title"></h3>
+
+                    </div>
+
+                    <div class="col-6" id="chat-cont">
+                        <div id="message-container">
+                            <ul id="history"></ul>
+                            <ul id="messages"></ul>
+                        </div>
+
+                        <form id="form">
+                            <textarea id="input" type="text" placeholder="Enter Message here"></textarea>
+                            <button id="send-your-message" class="fancy-button">Send</button>
+
+                            <%- include('partials/emojis'); %>
+
+                        </form>
+
+                    </div>
+
+                    <div class="col" id="members-cont">
+                        <div id="accordion">
+                            <div class="card">
+                                <div class="card-header" id="headingOne">
+                                    <h5 class="mb-0">
+                                        <button id="title-text" class="btn btn-link" data-toggle="collapse"
+                                            data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            Chat Members
+                                        </button>
+                                    </h5>
+                                </div>
+
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                    data-parent="#accordion">
+                                    <div class="card-body">
+                                        <div id="chat-members">
+                                        </div>
+                                        <form id="add-friend-form">
+                                            <input id="add-friend-name" type="text" placeholder="Friends name"></input>
+
+                                            <button class="fancy-button">Add to chat</button>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.1/qs.min.js"></script>
+                    <script src="/socket.io/socket.io.js"></script>
+                    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+                        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+                        crossorigin="anonymous"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+                        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+                        crossorigin="anonymous"></script>
+                    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                        crossorigin="anonymous"></script>
+                    <script src="/emojis.js"></script>
+                    <script src="/app.js"></script>
+    </body>
+
+    </html>
