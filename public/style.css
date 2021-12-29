@@ -1,25 +1,41 @@
 body {
-    background: linear-gradient(to right, #00afb9 0%, #fdfcdc 100%);
-    
+    background: linear-gradient(to right, #89d6fb 0%, #4d0cdb 100%);   
 }
 
 .bg-custom {
-    background-color: #00afb9;
+    /* background-color: #bcdee3; */
+    background-color: #fafafa;
 }
+
+#earth-border {
+    /* margin-left: 20%;
+    margin-right: 20%; */
+    margin-top: 3%;
+    margin-bottom: 3%;
+    padding-bottom: 10px;
+    
+    background: rgba(255, 255, 255, 0.199);
+}
+
+#new-button {
+    margin-top: 10px;
+}
+
 
 #earth {
     position: relative;
     height: 300px;
     width: 300px;
-    margin: 0.05em auto;
-    background: #888 url(https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Earthmap1000x500.jpg/640px-Earthmap1000x500.jpg)
+    /* margin: 0.05em auto; */
+    margin: 50px auto;
+    background: #888 url(https://images.photowall.com/products/49769/watercolour-world-map-soft-colors.jpg?h=699&q=85)
     0 0 repeat;
     border-radius: 50%;
     background-size: 630px;
     animation: rotate 6s linear infinite;
     transition: transform 200ms linear;
     transform-style: preserve-3d;
-    box-shadow: inset 20px 0 80px 6px rgb(0, 0, 0);
+    box-shadow: inset 20px 0 80px 6px rgb(66, 66, 66);
     color: #000;
 }
 
@@ -33,33 +49,34 @@ body {
 }
 
 #add-friend-name {
-    border: solid 1px white;
+    border: solid 1px rgba(116, 3, 245, 0.692);
     margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 #room-info {
-    background-color: #fdfcdca8;
+    background-color: #fafafa;
     margin-left: 20px;
     margin-right: 20px;
     width: auto;
+    border-radius: 5%;
 }
 
 .fancy-button {
     border-radius: 15%;
-    background-color: #00afb9;
+    background-color: #4d0cdb;
     color: white;
+    border: solid 2px white;
     text-decoration:  none;
     padding: 5px;
     padding-left: 15px;
     padding-right: 15px;
     font-size: 16px;
-
+    
 }
 
 .dropdown-item:hover {
     background-color: rgb(255, 255, 255);
-    
-
 }
 
 .emo {
@@ -70,16 +87,13 @@ body {
     
     text-decoration: none;
     background:rgb(0, 159, 199);
-    color: white;
-    
+    color: white;    
 }
-
 
 #title-text {
     color: black;
     font-size: 22px;
 }
-
 
 #create {
     border: 1px solid white;
@@ -89,14 +103,11 @@ body {
     margin-bottom: 10px;
     background-color: rgb(86, 245, 218);
     color: white;
-
 }
 
 #emoji-choice {
-    /* background: rgb(146, 213, 252); */
     background-color: transparent;
     border-color: transparent;
-    /* font-size: 28px; */
 }
 
 
@@ -109,12 +120,12 @@ h1 {
     font-size: 5rem;
     color:rgb(250, 250, 250);
     padding-top: 10px;
-    padding-left: 10px;
-  
+    padding-left: 10px; 
 }
+
 #chategorize {
     text-align: center;
-
+    border-bottom: solid white 2px;
 }
 
 #tagline {
@@ -123,7 +134,6 @@ h1 {
     font-size: 1.8rem;
     font-family: 'Megrim', cursive;
     font-family: 'Montserrat', sans-serif;  
-
 }
 
 #box {
@@ -138,43 +148,27 @@ h1 {
     font-size: 1.8rem;
     font-family: 'Megrim', cursive;
     font-family: 'Montserrat', sans-serif;  
-
-}
-
-#logo {
-    height: 100px;
-    width: 100px;
 }
 
 #form {
-    /* position: fixed; */
-    /* bottom: 0; */
     display: flex;
     justify-content: center;
-    width: 100%;
-    
-    
-    
+    width: 100%;    
 }
 
 #input {
-    /* width: 35rem; */
     border-radius: 15px;
     border: 1px solid white;
     width: 70%;
     margin-right: 10px; 
     margin-bottom: 10px;
-    /* margin-left: 10px;
-    padding-left: 20px;  */
-    height: 40px; 
-  
+    height: 40px;  
 }
 
 #messages {
     color: white;
     font-family: 'Montserrat', sans-serif;
-    font-size: 1.5rem;
-    
+    font-size: 1.5rem;    
 }
 
 ul {
@@ -185,14 +179,13 @@ ul {
     display: flex;
     justify-content: space-evenly;
     align-items:flex-start;
-    flex-direction: row;
-    
+    flex-direction: row;   
 }
 
 #chat-members {
     line-height: 2;
     padding-left: 10px;
-    background: #fdfcdc;
+    background:#bcd1e3;
 }
 
 #centered {
@@ -200,7 +193,6 @@ ul {
     justify-content: center;
     align-items:center;
     flex-direction: column;
-
 }
 
 #chat-cont {
@@ -209,38 +201,29 @@ ul {
     justify-content: space-evenly;
     flex-direction: column;
     padding-top: 20px;
-    /* border: solid rgb(255, 255, 255) 1px; */
     background: #126e8a1a;
-    height: 500px;
-    /* overflow: scroll; */
+    height: 500px;   
 }
 
 
 #members-cont {
-    
-    /* padding: 20px; */
     float: right;
-    background-color: #fdfcdc83;
+    background-color: transparent;
     margin-left: 20px;
     margin-right: 20px;
-    width: auto;
-   
+    width: auto;  
 }
 
 #history {
     color: white;
     font-family: 'Montserrat', sans-serif;
-    font-size: 1.5rem;
-    
+    font-size: 1.5rem;   
 }
 
 #message-container {
-    /* width: 50%; */
     height: 500px;
-    overflow: scroll;
-    
+    overflow: scroll;   
 }
-
 
 #room-cont {
     border: solid 1px rgb(255, 255, 255);
@@ -267,43 +250,41 @@ button {
     align-items:center;
     flex-direction: column;
     margin-bottom: 20px;
+    margin-top: 20px;
 
 }
 
 #headingOne {
-    background:#fdfcdca8;;
+    background:#fafafa;
 }
 
 .chat-titles {
     color:rgb(255, 255, 255);
     font-size: 2em;
+    font-weight: 200;
+    
     
 
 }
-
 
 .chat-titles:hover {
     color:rgb(255, 255, 255);
     text-decoration: none;
-    background:rgb(0, 159, 199)
+    background:#4d0cdb;
     
 }
 
 #my-messages {
-    background-color: #0081a7;
+    background-color: #4d0cdb;
 }
 
-
-
+#room-id {
+    display: none;
+}
 .message-color {
     margin: 2px;
     padding: 5px;
-    background-color: rgb(0, 199, 172);
-   
-}
-
-.message-color {
-      
+    background-color: rgb(5, 155, 224);  
     height: auto;
     position: relative;
     -moz-border-radius: 10px;
@@ -316,13 +297,12 @@ button {
     position: absolute;
     right: var(--messageTail, 100%);
     left: var(--otherTail, auto);
-
     top: 10px;
     width: 0;
     height: 0;
     border-top: 13px solid transparent;
-    border-left: var(--borderLeftBef, none) solid var(--borderBeforeCol, rgb(0, 199, 172));
-    border-right: var(--borderRightBef, 26px) solid var(--borderBeforeCol, rgb(0, 199, 172));
+    border-left: var(--borderLeftBef, none) solid var(--borderBeforeCol, rgb(5, 155, 224));
+    border-right: var(--borderRightBef, 26px) solid var(--borderBeforeCol, rgb(5, 155, 224));
     border-bottom: 1px solid transparent;
   }
 
@@ -345,8 +325,7 @@ button {
     #members-cont {
         margin-top: 20px;
         margin-bottom: 20px;
-    }
-    
+    }   
 }
 
 
@@ -364,4 +343,3 @@ button {
         display: none;
     }
 }
-

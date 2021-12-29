@@ -12,13 +12,18 @@
                 <div class="row">
                     <div class="col-4 offset-4">
 
-                        <form action="/chatname">
+                        <form action="/chatname" method="POST" class="validated-form" novalidate>
                             <div class="mb-3">
                                 <label class="form-label" for="chatname"></label>
                                 <input class="form-control" type="text" id="chatname" name="chatname" maxlength="20"
+                                    onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode==32)"
                                     placeholder="Chat name" required>
+                                <div class="valid-feedback">
+                                    Looks good!
+                                </div>
 
                             </div>
+
 
                             <button class="btn btn=success fancy-button">Create Room</button>
                         </form>
@@ -36,7 +41,17 @@
                     field.value = userName;
                 });
 
+                window.onload = () => {
+                    const myInput = document.getElementById('chatname');
+                    myInput.onpaste = e => e.preventDefault();
+                }
+
             </script>
 
-            <script src="/query.js"></script>
             <%- include('partials/footer'); %>
+                <script src="/validateForms.js">
+
+                </script>
+    </body>
+
+    </html>

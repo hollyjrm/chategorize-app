@@ -8,23 +8,28 @@ var addName = document.getElementById("add-friend-name");
 var messageContainer = document.getElementById('message-container');
 
 // getting chat name from query string
-function getQueryVariable(variable) {
-    if (window.location.search) {
-        var query = window.location.search.substring(1);
-        var vars = query.split("&");
-        for (var i = 0; i < vars.length; i++) {
-            var pair = vars[i].split("=");
-            if (pair[0] == variable) { return pair[1]; }
-        }
-        return (false);
-    }
-}
+// function getQueryVariable(variable) {
+//     if (window.location.search) {
+//         var query = window.location.search.substring(1);
+//         var vars = query.split("&");
+//         for (var i = 0; i < vars.length; i++) {
+//             var pair = vars[i].split("=");
+//             if (pair[0] == variable) { return pair[1]; }
+//         }
+//         return (false);
+//     }
+// }
 
-let chatname = getQueryVariable('chatname')
+// let chatname = document.getElementById('chatname').value;
 let title = document.getElementById('chat-title');
-let chatnameTitle = chatname.replaceAll('+', ' ')
+// let chatnameTitle = chatname.replaceAll('+', ' ')
+let thisId = document.getElementById('room-id');
+let thisRoomId = thisId.textContent.trim();
 
-title.textContent = chatnameTitle;
+
+// title.textContent = chatname;
+let chatnameTitle = title.textContent.trim();
+console.log(`title man: ${chatnameTitle}`)
 let chatMembers = document.getElementById('chat-members')
 
 const socket = io();
@@ -32,7 +37,13 @@ const socket = io();
 socket.emit('sendUserName', username);
 
 //join new room
-socket.emit('joinRoom', chatnameTitle);
+// should we make this unique? 
+let obj = {
+    chatname: chatnameTitle,
+    id: thisRoomId
+}
+
+socket.emit('joinRoom', obj); // pass obj which contains title and id
 
 socket.on('chatMembers', function (currMembers) {
 
@@ -99,7 +110,8 @@ socket.on('chat message', function (msg) {
 });
 
 socket.on('userLeft', function (username) {
-    var item = document.createElement('li');
-    item.textContent = username + ' has left';
-    messages.appendChild(item);
+    console.log(username + ' has left');
+    // var item = document.createElement('li');
+    // item.textContent = username + ' has left';
+    // messages.appendChild(item);
 })

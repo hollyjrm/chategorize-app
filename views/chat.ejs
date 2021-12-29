@@ -23,25 +23,29 @@
                     <tbody id="chatLinks">
                         <% for (let chat of chats) { %>
 
-                            <% let chatName=chat.name.replace(/\s/g, "" ) %>
+
+                            <tr>
+
+                                <td><a class="chat-titles" href="/chatname/<%=chat._id%> ">
+                                        <%=chat.name %>
+                                    </a></td>
+
+                            </tr>
+                            <% } %>
+
                                 <tr>
+                                    <td>
+                                        <a class="fancy-button" href="/new">New</a>
 
-                                    <td><a class="chat-titles" href="/chatname?chatname=<%=chatName %> ">
-                                            <%=chat.name %>
-                                        </a></td>
-
+                                    </td>
                                 </tr>
-                                <% } %>
-
-                                    <tr>
-                                        <td>
-                                            <a id="new-button" class="fancy-button" href="/new">New</a>
-
-                                        </td>
-                                    </tr>
                     </tbody>
                 </table>
             </div>
             </div>
 
             <%- include('partials/footer'); %>
+
+    </body>
+
+    </html>

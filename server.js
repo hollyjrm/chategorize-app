@@ -26,6 +26,11 @@ const helmet = require('helmet');
 //array so I can identify all users and their sockets
 let users = [];
 
+// to access id of room
+
+let roomId;
+let reqChatname;
+
 //connect to db
 mongoose.connect('mongodb://localhost:27017/chatapp', {
     useNewUrlParser: true
@@ -78,6 +83,7 @@ app.use((req, res, next) => {
 
 app.use('/', userRoutes);
 
+/////////////////////////////////////////////////////////routes//////////////////////////////////////////////////////
 
 app.get('/', (req, res) => {
     res.render(__dirname + '/views/index.ejs');
@@ -92,16 +98,32 @@ app.get('/new', isLoggedIn, (req, res) => {
     res.render(__dirname + '/views/new.ejs', { currUser: req.user });
 });
 
-app.get('/chatname', isLoggedIn, async (req, res) => {
+app.post('/chatname', isLoggedIn, catchAsync(async (req, res) => {
+    if (!req.body.chatname) throw new ExpressError('No chatname provided', 400);
+    const person = await User.findOne({ username: req.user.username })
+    const newChat = new Room({ name: req.body.chatname, owner: person._id }, { autoIndex: false });
+    if (!newChat.users.includes(person._id)) {
+        newChat.users.push(person);
+    }
+
+    await newChat.save();
+    reqChatname = req.body.chatname;
+    roomId = newChat._id;
+
+    // redirect here to the newly made chatroom
+    res.redirect(`/chatname/${newChat._id}`);
+}));
+
+app.get('/chatname/:id', isLoggedIn, catchAsync(async (req, res) => {
     const users = await User.find({});
+    const { id } = req.params;
 
-
-    res.render(__dirname + '/views/chatname.ejs', { currUser: req.user, users });
-});
+    const room = await Room.findById(id);
+    res.render(__dirname + '/views/chatname.ejs', { currUser: req.user, users, room });
+}));
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))
-
 })
 
 app.use((err, req, res, next) => {
@@ -110,8 +132,10 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err })
 })
 
+
 /////////////////////////////////////////////////socket.io starts here//////////////////////////////////////////////////
 io.on('connection', (socket) => {
+    console.log("SOCKET CONNECTION")
     socket.on('sendUserName', function (username) {
         socket.username = username;
         users.push({ name: socket.username, id: socket.id });
@@ -121,24 +145,21 @@ io.on('connection', (socket) => {
 
     let wantedRoom;
 
-    socket.on('joinRoom', async function (chatname) {
-        wantedRoom = await Room.findOne({ name: chatname });
+    socket.on('joinRoom', async function ({ chatname, id }) {
+        wantedRoom = await Room.findById(id); // roomId is undefined
 
         if (!wantedRoom) {
             //if room doesn't exist: person creating room
-            const person = await User.findOne({ username: socket.username });
-            console.log(`if room doesnt exist this is person: ${person}`)
-            wantedRoom = new Room({ name: chatname, owner: person._id }, { autoIndex: false });
-            console.log(`wanted room check: ${wantedRoom}`)
-            wantedRoom.users.push(person)
-            wantedRoom.save();
+            // const person = await User.findOne({ username: socket.username });
+            // console.log(`if room doesnt exist this is person: ${person}`)
+            // wantedRoom = new Room({ name: chatname, owner: person._id }, { autoIndex: false });
+            // wantedRoom.users.push(person)
+            // wantedRoom.save();
+            console.log(`sorry ${chatname} does not exist`)
         }
         else {
             const person = await User.findOne({ username: socket.username });
-            console.log(`if room DOES exist this is person: ${person}`)
             console.log(`if room DOES exist this is room: ${wantedRoom}`)
-            console.log(`HORRRRRRSSSSEEE ${wantedRoom.users.includes(person._id)}`)
-
 
             if (!wantedRoom.users.includes(person._id)) {
                 wantedRoom.users.push(person)
@@ -146,42 +167,41 @@ io.on('connection', (socket) => {
             }
         }
 
-        let wantedRoomId = wantedRoom._id;
+        let wantedRoomId = id;
         let currMembers;
 
-        Room.findOne({ name: wantedRoom.name }).populate({ path: 'users', select: 'username -_id' }).then((result) => {
-            console.log(`room-ba-doom-doom ${result.users}`)
+        Room.findById(wantedRoomId).populate({ path: 'users', select: 'username -_id' }).then((result) => {
+
             // all people in the room
             currMembers = result.users;
-            io.in(wantedRoom.name).emit('chatMembers', currMembers);
+            io.in(wantedRoomId).emit('chatMembers', currMembers);
 
         })
-        // trying to retrieve message history from db
+        // retrieve message history from db
         Message.find({ room: wantedRoomId }).populate('sender').then((result) => {
-            console.log(`outputting message...${result}`)
-            io.in(chatname).emit('outputMessage', result)
+            // console.log(`outputting message...${result}`)
+            io.in(wantedRoomId).emit('outputMessage', result)
         })
 
-
-
-        socket.join(chatname);
-        console.log(`${socket.username} joined the ${chatname} room`)
-        console.log(socket.rooms)
-        console.log(`adapter shit: ${io.sockets.adapter.rooms[chatname]}`) //undefined
-        console.log(`wanted room is ${wantedRoom}`)
-        console.log(wantedRoomId)
-
+        socket.join(wantedRoomId);
+        // console.log(`${socket.username} joined the ${chatname} room`)
+        // console.log(socket.rooms)
+        // console.log(`wanted room is ${wantedRoom}`)
+        // console.log(wantedRoomId)
 
         socket.on('addFriend', async function (person) {
             try {
                 const user = await User.findOne({ username: person });
-                wantedRoom.users.push(user);
-                wantedRoom.save();
 
+                if (!wantedRoom.users.includes(user._id)) {
+                    wantedRoom.users.push(user)
+                    wantedRoom.save();
+
+                }
             }
+
             catch (e) {
                 console.log(`ADD FRIEND ERROR`, e);
-
             }
         })
 
@@ -190,14 +210,10 @@ io.on('connection', (socket) => {
             const message = new Message({ message: msg, sender: messageSender, time: moment().format('LLLL'), room: wantedRoom });
             message.save().then(() => {
                 const toSend = { user: socket.username, msg: msg }
-                io.in(chatname).emit('chat message', toSend);
+                io.in(wantedRoomId).emit('chat message', toSend);
             })
         });
     })
-
-    socket.leave(wantedRoom);
-
-    io.to(wantedRoom).emit(`user ${socket.username} has left the room`);
 
     //only triggers when socket disconnects
     socket.on('disconnect', function () {
@@ -206,6 +222,7 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('userLeft', socket.username);
     });
 });
+
 
 // running server
 server.listen(5000, () => {
