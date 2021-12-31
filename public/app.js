@@ -6,28 +6,9 @@ var messageHistoryCont = document.getElementById('history');
 var addFriendButton = document.getElementById('add-friend-form');
 var addName = document.getElementById("add-friend-name");
 var messageContainer = document.getElementById('message-container');
-
-// getting chat name from query string
-// function getQueryVariable(variable) {
-//     if (window.location.search) {
-//         var query = window.location.search.substring(1);
-//         var vars = query.split("&");
-//         for (var i = 0; i < vars.length; i++) {
-//             var pair = vars[i].split("=");
-//             if (pair[0] == variable) { return pair[1]; }
-//         }
-//         return (false);
-//     }
-// }
-
-// let chatname = document.getElementById('chatname').value;
 let title = document.getElementById('chat-title');
-// let chatnameTitle = chatname.replaceAll('+', ' ')
 let thisId = document.getElementById('room-id');
 let thisRoomId = thisId.textContent.trim();
-
-
-// title.textContent = chatname;
 let chatnameTitle = title.textContent.trim();
 console.log(`title man: ${chatnameTitle}`)
 let chatMembers = document.getElementById('chat-members')
@@ -37,7 +18,7 @@ const socket = io();
 socket.emit('sendUserName', username);
 
 //join new room
-// should we make this unique? 
+
 let obj = {
     chatname: chatnameTitle,
     id: thisRoomId
@@ -95,7 +76,6 @@ addFriendButton.addEventListener('submit', function (e) {
     }
 })
 
-
 socket.on('chat message', function (msg) {
     var item = document.createElement('li');
     item.classList.add("message-color");
@@ -111,7 +91,5 @@ socket.on('chat message', function (msg) {
 
 socket.on('userLeft', function (username) {
     console.log(username + ' has left');
-    // var item = document.createElement('li');
-    // item.textContent = username + ' has left';
-    // messages.appendChild(item);
+
 })

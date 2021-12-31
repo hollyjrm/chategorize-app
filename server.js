@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
+
 const express = require('express');
 const app = express();
 const http = require('http');
@@ -22,17 +26,19 @@ const moment = require('moment');
 const { v4: uuidv4 } = require('uuid');
 const userRoutes = require('./routes/user');
 const helmet = require('helmet');
-
+// const dbUrl = process.env.DB_URL
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/chatapp';
+const MongoDBStore = require("connect-mongo")(session);
 //array so I can identify all users and their sockets
 let users = [];
 
 // to access id of room
 
 let roomId;
-let reqChatname;
 
 //connect to db
-mongoose.connect('mongodb://localhost:27017/chatapp', {
+// 'mongodb://localhost:27017/chatapp'
+mongoose.connect(dbUrl, {
     useNewUrlParser: true
 
 })
@@ -51,9 +57,21 @@ app.use(morgan('tiny'));
 app.use(express.urlencoded({ extended: true }));
 app.use(mongoSanitize());
 
+const secret = process.env.SECRET || 'mischievemanaged';
+const store = new MongoDBStore({
+    url: dbUrl,
+    secret,
+    touchAfter: 24 * 60 * 60
+
+});
+
+store.on("error", function (e) {
+    console.log("SESSION STORE ERROR", e)
+})
 const sessionConfig = {
+    store,
     name: 'session',
-    secret: 'mischievemanaged',
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -107,7 +125,6 @@ app.post('/chatname', isLoggedIn, catchAsync(async (req, res) => {
     }
 
     await newChat.save();
-    reqChatname = req.body.chatname;
     roomId = newChat._id;
 
     // redirect here to the newly made chatroom
@@ -149,18 +166,14 @@ io.on('connection', (socket) => {
         wantedRoom = await Room.findById(id); // roomId is undefined
 
         if (!wantedRoom) {
-            //if room doesn't exist: person creating room
-            // const person = await User.findOne({ username: socket.username });
-            // console.log(`if room doesnt exist this is person: ${person}`)
-            // wantedRoom = new Room({ name: chatname, owner: person._id }, { autoIndex: false });
-            // wantedRoom.users.push(person)
-            // wantedRoom.save();
+            //if room doesn't exist: rooms should be created in new route only
             console.log(`sorry ${chatname} does not exist`)
         }
         else {
             const person = await User.findOne({ username: socket.username });
             console.log(`if room DOES exist this is room: ${wantedRoom}`)
 
+            // if user isn't in the room already
             if (!wantedRoom.users.includes(person._id)) {
                 wantedRoom.users.push(person)
                 wantedRoom.save();
@@ -179,15 +192,10 @@ io.on('connection', (socket) => {
         })
         // retrieve message history from db
         Message.find({ room: wantedRoomId }).populate('sender').then((result) => {
-            // console.log(`outputting message...${result}`)
             io.in(wantedRoomId).emit('outputMessage', result)
         })
 
         socket.join(wantedRoomId);
-        // console.log(`${socket.username} joined the ${chatname} room`)
-        // console.log(socket.rooms)
-        // console.log(`wanted room is ${wantedRoom}`)
-        // console.log(wantedRoomId)
 
         socket.on('addFriend', async function (person) {
             try {

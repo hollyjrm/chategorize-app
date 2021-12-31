@@ -36,7 +36,3 @@ emojiPaste(monkey)
 emojiPaste(sweat)
 emojiPaste(grimace)
 emojiPaste(dog)
-
-
-
-

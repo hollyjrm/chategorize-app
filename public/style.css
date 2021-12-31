@@ -3,13 +3,12 @@ body {
 }
 
 .bg-custom {
-    /* background-color: #bcdee3; */
+  
     background-color: #fafafa;
 }
 
 #earth-border {
-    /* margin-left: 20%;
-    margin-right: 20%; */
+    
     margin-top: 3%;
     margin-bottom: 3%;
     padding-bottom: 10px;
@@ -26,7 +25,6 @@ body {
     position: relative;
     height: 300px;
     width: 300px;
-    /* margin: 0.05em auto; */
     margin: 50px auto;
     background: #888 url(https://images.photowall.com/products/49769/watercolour-world-map-soft-colors.jpg?h=699&q=85)
     0 0 repeat;
