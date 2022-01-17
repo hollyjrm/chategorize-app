@@ -22,6 +22,7 @@ body {
 
 .small-font {
     font-size: 14px;
+    border-top: solid rgba(128, 128, 128, 0.24) 1px;
 }
 
 
@@ -170,7 +171,9 @@ h1 {
 #messages {
     color: white;
     font-family: 'Montserrat', sans-serif;
-    font-size: 1.5rem;    
+    font-size: 1.5rem;   
+    display: flex;
+    flex-direction: column; 
 }
 
 ul {
@@ -199,11 +202,13 @@ ul {
 
 #chat-cont {
     display: flex;
-    align-items: center;
+    /* align-items:inherit; */
     justify-content: space-evenly;
     flex-direction: column;
     padding-top: 20px;
     background: #126e8a1a;
+    /* background-color: white; */
+    
     height: 500px;   
 }
 
@@ -219,13 +224,17 @@ ul {
 #history {
     color: white;
     font-family: 'Montserrat', sans-serif;
-    font-size: 1.5rem;   
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;   
 }
 
 #message-container {
     height: 500px;
-    overflow: scroll;   
+    overflow: scroll;
+      
 }
+
 
 #room-cont {
     border: solid 1px rgb(255, 255, 255);
@@ -277,24 +286,30 @@ button {
 }
 
 #my-messages {
-    background-color: #4d0cdb;
+    background-color: #fafafa;
+    color: black;
+    
+    width: fit-content;
+    
 }
 
 #room-id {
     display: none;
 }
 .message-color {
-    margin: 2px;
+    margin: 5px;
     padding: 5px;
-    background-color: rgb(5, 155, 224);  
+    background-color: rgb(88, 0, 230);  
     height: auto;
     position: relative;
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
-    border-radius: 10px;       
+    border-radius: 15px;   
+    
+    width: fit-content;
 }
 
-.message-color:before {
+/* .message-color:before {
     content: "";
     position: absolute;
     right: var(--messageTail, 100%);
@@ -306,7 +321,7 @@ button {
     border-left: var(--borderLeftBef, none) solid var(--borderBeforeCol, rgb(5, 155, 224));
     border-right: var(--borderRightBef, 26px) solid var(--borderBeforeCol, rgb(5, 155, 224));
     border-bottom: 1px solid transparent;
-  }
+  } */
 
 
   @media (max-width: 1130px) {

@@ -47,6 +47,7 @@ socket.on('outputMessage', function (msg) {
     if (msg.length && messageHistoryCont.innerHTML == "") {
         for (var x = 0; x < msg.length; x++) {
             var dbMessage = document.createElement('li');
+
             dbMessage.classList.add("message-color");
             if (msg[x].sender.username == username) {
                 dbMessage.id = "my-messages";
@@ -82,6 +83,7 @@ addFriendButton.addEventListener('submit', function (e) {
 
 socket.on('chat message', function (msg) {
     var item = document.createElement('li');
+
     var dateSent = document.createElement('div');
     dateSent.textContent = msg.time;
     dateSent.classList.add("small-font");
