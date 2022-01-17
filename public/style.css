@@ -20,6 +20,10 @@ body {
     margin-top: 10px;
 }
 
+.small-font {
+    font-size: 14px;
+}
+
 
 #earth {
     position: relative;

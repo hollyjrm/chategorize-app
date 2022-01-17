@@ -52,6 +52,10 @@ socket.on('outputMessage', function (msg) {
                 dbMessage.id = "my-messages";
             }
             dbMessage.textContent = `${msg[x].sender.username}: ${msg[x].message}`;
+            var dateSent = document.createElement('div');
+            dateSent.textContent = msg[x].time;
+            dateSent.classList.add("small-font");
+            dbMessage.appendChild(dateSent);
             messageHistoryCont.appendChild(dbMessage);
         }
     }
@@ -78,12 +82,17 @@ addFriendButton.addEventListener('submit', function (e) {
 
 socket.on('chat message', function (msg) {
     var item = document.createElement('li');
+    var dateSent = document.createElement('div');
+    dateSent.textContent = msg.time;
+    dateSent.classList.add("small-font");
+
     item.classList.add("message-color");
 
     if (msg.user == username) {
         item.id = "my-messages";
     }
     item.textContent = `${msg.user}: ${msg.msg}`;
+    item.appendChild(dateSent);
     messages.appendChild(item);
     messageContainer.scrollTop = messageContainer.scrollHeight;
 

@@ -217,7 +217,7 @@ io.on('connection', (socket) => {
             const messageSender = await User.findOne({ username: socket.username })
             const message = new Message({ message: msg, sender: messageSender, time: moment().format('LLLL'), room: wantedRoom });
             message.save().then(() => {
-                const toSend = { user: socket.username, msg: msg }
+                const toSend = { user: socket.username, msg: msg, time: moment().format('LLLL') }
                 io.in(wantedRoomId).emit('chat message', toSend);
             })
         });
