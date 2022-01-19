@@ -1,5 +1,6 @@
 if (process.env.NODE_ENV !== "production") {
     require('dotenv').config();
+    console.log('running in dev mode');
 }
 
 const express = require('express');
@@ -15,6 +16,7 @@ const path = require('path');
 const morgan = require('morgan');
 const session = require('express-session');
 const flash = require('connect-flash');
+
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
@@ -26,6 +28,7 @@ const moment = require('moment');
 const { v4: uuidv4 } = require('uuid');
 const userRoutes = require('./routes/user');
 const helmet = require('helmet');
+const nodemailer = require('nodemailer');
 // const dbUrl = process.env.DB_URL
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/chatapp';
 const MongoDBStore = require("connect-mongo")(session);
@@ -35,6 +38,17 @@ let users = [];
 // to access id of room
 
 let roomId;
+
+const transporter = nodemailer.createTransport({
+    // service: 'SendinBlue', 
+    host: 'smtp-relay.sendinblue.com',
+    port: 587,
+    auth: {
+        user: 'info@chategorize.com',
+        pass: process.env.PASS
+    }
+});
+
 
 //connect to db
 // 'mongodb://localhost:27017/chatapp'
@@ -220,6 +234,26 @@ io.on('connection', (socket) => {
                 const toSend = { user: socket.username, msg: msg, time: moment().format('LLLL') }
                 io.in(wantedRoomId).emit('chat message', toSend);
             })
+            //     let currEmails;
+            //     Room.findById(wantedRoomId).populate({ path: 'users', select: 'email -_id' }).then((result) => {
+
+            //         // all peoples emails in the room
+            //         currEmails = result.users;
+
+            //     })
+
+            //     transporter.sendMail({
+            //         to: currEmails,
+            //         from: 'Chategorize <info@chategorize.com>',
+            //         subject: 'New Message!',
+            //         text: `You have a new message in ${wantedRoom.name}`
+            //     })
+            //         .then((res) => console.log("Successfully sent"))
+            //         .catch((err) => console.log("Failed ", err))
+
+
+
+            // })
         });
     })
 
