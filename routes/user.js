@@ -4,6 +4,7 @@ const passport = require('passport');
 const catchAsync = require('../utils/catchAsync');
 const User = require('../models/user');
 const nodemailer = require('nodemailer');
+const Email = require('email-templates');
 
 
 const transporter = nodemailer.createTransport({
@@ -15,6 +16,21 @@ const transporter = nodemailer.createTransport({
         pass: process.env.PASS
     }
 });
+
+
+const mail = new Email({
+    views: { root: './routes/templates', options: { extension: 'ejs' } },
+    message: {
+        from: 'Chategorize <info@chategorize.com>',
+
+    },
+    preview: false,
+    send: true,
+    transport: transporter
+
+
+});
+
 
 router.get('/register', (req, res) => {
     res.render('users/register')
@@ -30,21 +46,37 @@ router.post('/register', catchAsync(async (req, res, next) => {
             req.flash('success', 'Welcome to Chategorize!');
             res.redirect('/');
 
-            transporter.sendMail({
-                to: email,
-                from: 'Chategorize <info@chategorize.com>',
-                subject: 'Welcome to Chategorize!',
-                text: `Welcome to Chategorize ${username}! It's great to have you on board!`,
-                html: `<body><h1>Welcome to Chategorize ${username}!</h1> <p>Thanks for signing up, we hope you enjoy chatting with your friends here on Chategorize!</p></body>`
+
+            mail.send({
+                template: 'welcome',
+                message: {
+                    to: email
+                },
+                locals: {
+                    name: username
+                }
             })
-                .then((res) => console.log("Successfully sent"))
-                .catch((err) => console.log("Failed ", err))
+                .then(console.log)
+                .catch(console.error);
+
+
+
+            // transporter.sendMail({
+            //     to: email,
+            //     from: 'Chategorize <info@chategorize.com>',
+            //     subject: 'Welcome to Chategorize!',
+            //     text: `Welcome to Chategorize ${username}! It's great to have you on board!`,
+            //     html: `<body><h1>Welcome to Chategorize ${username}!</h1> <p>Thanks for signing up, we hope you enjoy chatting with your friends here on Chategorize!</p></body>`
+
+            // })
+            //     .then((res) => console.log("Successfully sent"))
+            //     .catch((err) => console.log("Failed ", err))
 
         })
 
     } catch (e) {
         req.flash('error', e.message)
-        res.redirect('register')
+
     }
 }))
 
