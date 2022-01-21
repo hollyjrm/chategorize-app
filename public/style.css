@@ -232,6 +232,8 @@ ul {
 #message-container {
     height: 500px;
     overflow: scroll;
+    display: flex;
+    flex-direction: column-reverse;
       
 }
 
