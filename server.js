@@ -29,6 +29,7 @@ const { v4: uuidv4 } = require('uuid');
 const userRoutes = require('./routes/user');
 const helmet = require('helmet');
 const nodemailer = require('nodemailer');
+const Email = require('email-templates');
 // const dbUrl = process.env.DB_URL
 const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/chatapp';
 const MongoDBStore = require("connect-mongo")(session);
@@ -48,6 +49,20 @@ const transporter = nodemailer.createTransport({
         pass: process.env.PASS
     }
 });
+
+const mail = new Email({
+    views: { root: './routes/templates', options: { extension: 'ejs' } },
+    message: {
+        from: 'Chategorize <info@chategorize.com>',
+
+    },
+    preview: false,
+    send: true,
+    transport: transporter
+
+
+});
+
 
 
 //connect to db
@@ -234,26 +249,43 @@ io.on('connection', (socket) => {
                 const toSend = { user: socket.username, msg: msg, time: moment().format('LLLL') }
                 io.in(wantedRoomId).emit('chat message', toSend);
             })
-            //     let currEmails;
-            //     Room.findById(wantedRoomId).populate({ path: 'users', select: 'email -_id' }).then((result) => {
 
-            //         // all peoples emails in the room
-            //         currEmails = result.users;
+            let currEmails = [];
 
-            //     })
+            Room.findById(wantedRoomId).populate({ path: 'users', select: 'email -_id' }).then((result) => {
 
-            //     transporter.sendMail({
-            //         to: currEmails,
-            //         from: 'Chategorize <info@chategorize.com>',
-            //         subject: 'New Message!',
-            //         text: `You have a new message in ${wantedRoom.name}`
-            //     })
-            //         .then((res) => console.log("Successfully sent"))
-            //         .catch((err) => console.log("Failed ", err))
+                // all people in the room
 
+                console.log(`result is: ${Object.values(result.users)}`)
+                console.log('blah' + result.users[0].email)
+                for (let i = 0; i < result.users.length; i++) {
+                    currEmails.push(result.users[i].email)
+                    console.log(currEmails)
+                }
+                console.log('curr is ' + currEmails);
+                console.log(`message sender is: ${messageSender.email}`)
+                const index = currEmails.indexOf(messageSender.email);
+                if (index > -1) {
+                    currEmails.splice(index, 1);
+                }
 
+                mail.send({
+                    template: 'newMessage',
+                    message: {
+                        to: currEmails
+                    },
+                    locals: {
 
-            // })
+                        roomTitle: wantedRoom,
+                        sender: messageSender.username
+
+                    }
+                })
+                    .then(console.log)
+                    .catch(console.error);
+
+            })
+
         });
     })
 

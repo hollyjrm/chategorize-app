@@ -59,19 +59,6 @@ router.post('/register', catchAsync(async (req, res, next) => {
                 .then(console.log)
                 .catch(console.error);
 
-
-
-            // transporter.sendMail({
-            //     to: email,
-            //     from: 'Chategorize <info@chategorize.com>',
-            //     subject: 'Welcome to Chategorize!',
-            //     text: `Welcome to Chategorize ${username}! It's great to have you on board!`,
-            //     html: `<body><h1>Welcome to Chategorize ${username}!</h1> <p>Thanks for signing up, we hope you enjoy chatting with your friends here on Chategorize!</p></body>`
-
-            // })
-            //     .then((res) => console.log("Successfully sent"))
-            //     .catch((err) => console.log("Failed ", err))
-
         })
 
     } catch (e) {
