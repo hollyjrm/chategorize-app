@@ -229,14 +229,19 @@ ul {
     flex-direction: column;   
 }
 
-#message-container {
-    height: 500px;
-    overflow: scroll;
+/* #message-container {
+    
+    
+      
+} */
+
+#scroll-cont {
     display: flex;
     flex-direction: column-reverse;
-      
-}
+    height: 500px;
+    overflow: scroll;
 
+}
 
 #room-cont {
     border: solid 1px rgb(255, 255, 255);
