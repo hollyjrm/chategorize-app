@@ -204,6 +204,7 @@ ul {
   justify-content: space-evenly;
   align-items: flex-start;
   flex-direction: row;
+  min-height: 100vh;
 }
 
 #chatLinks {
@@ -365,6 +366,9 @@ button {
     margin-top: 20px;
     margin-bottom: 20px;
   }
+  .col {
+    flex-grow: 0;
+  }
 }
 
 @media (max-width: 769px) {
@@ -379,6 +383,9 @@ button {
     max-width: 100%;
   }
   #history {
+    padding: 0;
+  }
+  .card-header {
     padding: 0;
   }
 }
