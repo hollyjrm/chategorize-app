@@ -1,54 +1,36 @@
 <!-- Default dropup button -->
 <div class="btn-group dropup">
-    <button type="button" id="emoji-choice" class="btn btn-secondary dropdown-toggle emo" data-toggle="dropdown"
-        aria-haspopup="true" aria-expanded="false">
-        <%= "\uD83D\uDE1C" %>
-    </button>
-    <div class="dropdown-menu">
-        <!-- Dropdown menu links -->
-        <a class="dropdown-item" href="#">
-            <button class="emo" id="heart">
-                <%= "\u200D\u2764\uFE0F\u200D" %>
-            </button>
-            <button class="emo" id="tongue">
-                <%= "\uD83D\uDE1C" %>
-            </button>
-            <button class="emo" id="thumbsUp">
-                <%= "\uD83D\uDC4D" %>
-            </button>
-        </a>
-        <a class="dropdown-item" href="#"><button class="emo" id="grin">
-                <%= "\uD83D\uDE01" %>
-            </button>
-            <button class="emo" id="cry">
-                <%= "\uD83D\uDE25" %>
-            </button>
-            <button class="emo" id="thumbsDown">
-                <%= "\uD83D\uDC4E" %>
-            </button>
-
-        </a>
-        <a class="dropdown-item" href="#">
-            <button class="emo" id="kiss">
-                <%= "\uD83D\uDE18" %>
-            </button>
-            <button class="emo" id="laugh">
-                <%= "\uD83D\uDE02" %>
-            </button>
-            <button class="emo" id="monkey">
-                <%= "\uD83D\uDE48" %>
-            </button>
-
-        </a>
-        <a class="dropdown-item" href="#"><button class="emo" id="sweat">
-                <%= "\uD83D\uDE05" %>
-            </button>
-            <button class="emo" id="grimace">
-                <%= "\uD83D\uDE2C" %>
-            </button>
-            <button class="emo" id="dog">
-                <%= "\uD83D\uDC36" %>
-            </button>
-        </a>
-    </div>
+  <button
+    type="button"
+    id="emoji-choice"
+    class="btn btn-secondary dropdown-toggle emo"
+    data-toggle="dropdown"
+    aria-haspopup="true"
+    aria-expanded="false"
+  >
+    <%= "\uD83D\uDE1C" %>
+  </button>
+  <div class="dropdown-menu dropdown-menu-right">
+    <!-- Dropdown menu links -->
+    <a class="dropdown-item" href="#">
+      <button class="emo" id="heart"><%= "\u200D\u2764\uFE0F\u200D" %></button>
+      <button class="emo" id="tongue"><%= "\uD83D\uDE1C" %></button>
+      <button class="emo" id="thumbsUp"><%= "\uD83D\uDC4D" %></button>
+    </a>
+    <a class="dropdown-item" href="#"
+      ><button class="emo" id="grin"><%= "\uD83D\uDE01" %></button>
+      <button class="emo" id="cry"><%= "\uD83D\uDE25" %></button>
+      <button class="emo" id="thumbsDown"><%= "\uD83D\uDC4E" %></button>
+    </a>
+    <a class="dropdown-item" href="#">
+      <button class="emo" id="kiss"><%= "\uD83D\uDE18" %></button>
+      <button class="emo" id="laugh"><%= "\uD83D\uDE02" %></button>
+      <button class="emo" id="monkey"><%= "\uD83D\uDE48" %></button>
+    </a>
+    <a class="dropdown-item" href="#"
+      ><button class="emo" id="sweat"><%= "\uD83D\uDE05" %></button>
+      <button class="emo" id="grimace"><%= "\uD83D\uDE2C" %></button>
+      <button class="emo" id="dog"><%= "\uD83D\uDC36" %></button>
+    </a>
+  </div>
 </div>
