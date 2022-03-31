@@ -35,28 +35,27 @@ router.post(
   catchAsync(async (req, res, next) => {
     try {
       const { email, username, password } = req.body;
-      if (username.length < 30) {
-        const user = new User({ email, username });
-        const registeredUser = await User.register(user, password);
-        req.login(registeredUser, (err) => {
-          if (err) return next(err);
-          req.flash("success", "Welcome to Chategorize!");
-          res.redirect("/");
 
-          mail
-            .send({
-              template: "welcome",
-              message: {
-                to: email,
-              },
-              locals: {
-                name: username,
-              },
-            })
-            .then(console.log)
-            .catch(console.error);
-        });
-      }
+      const user = new User({ email, username });
+      const registeredUser = await User.register(user, password);
+      req.login(registeredUser, (err) => {
+        if (err) return next(err);
+        req.flash("success", "Welcome to Chategorize!");
+        res.redirect("/");
+
+        mail
+          .send({
+            template: "welcome",
+            message: {
+              to: email,
+            },
+            locals: {
+              name: username,
+            },
+          })
+          .then(console.log)
+          .catch(console.error);
+      });
     } catch (e) {
       req.flash("error", e.message);
     }
