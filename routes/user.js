@@ -36,26 +36,31 @@ router.post(
     try {
       const { email, username, password } = req.body;
 
-      const user = new User({ email, username });
-      const registeredUser = await User.register(user, password);
-      req.login(registeredUser, (err) => {
-        if (err) return next(err);
-        req.flash("success", "Welcome to Chategorize!");
-        res.redirect("/");
+      if (username.length < 25) {
+        const user = new User({ email, username });
+        const registeredUser = await User.register(user, password);
+        req.login(registeredUser, (err) => {
+          if (err) return next(err);
+          req.flash("success", "Welcome to Chategorize!");
+          res.redirect("/");
 
-        mail
-          .send({
-            template: "welcome",
-            message: {
-              to: email,
-            },
-            locals: {
-              name: username,
-            },
-          })
-          .then(console.log)
-          .catch(console.error);
-      });
+          mail
+            .send({
+              template: "welcome",
+              message: {
+                to: email,
+              },
+              locals: {
+                name: username,
+              },
+            })
+            .then(console.log)
+            .catch(console.error);
+        });
+      } else {
+        req.flash("error", "Please enter a username with less characters");
+        res.redirect("/register");
+      }
     } catch (e) {
       req.flash("error", e.message);
     }

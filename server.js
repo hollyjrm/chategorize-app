@@ -194,7 +194,7 @@ io.on("connection", (socket) => {
   socket.on("sendUserName", function (username) {
     socket.username = username;
     users.push({ name: socket.username, id: socket.id });
-    console.log(users);
+    // console.log(users);
   });
 
   let wantedRoom;
@@ -207,7 +207,7 @@ io.on("connection", (socket) => {
       console.log(`sorry ${chatname} does not exist`);
     } else {
       const person = await User.findOne({ username: socket.username });
-      console.log(`if room DOES exist this is room: ${wantedRoom}`);
+      // console.log(`if room DOES exist this is room: ${wantedRoom}`);
 
       // if user isn't in the room already
       if (!wantedRoom.users.includes(person._id)) {
@@ -272,14 +272,14 @@ io.on("connection", (socket) => {
         .then((result) => {
           // all people in the room
 
-          console.log(`result is: ${Object.values(result.users)}`);
-          console.log("email is" + result.users[0].email);
+          // console.log(`result is: ${Object.values(result.users)}`);
+          // console.log("email is" + result.users[0].email);
           for (let i = 0; i < result.users.length; i++) {
             currEmails.push(result.users[i].email);
-            console.log(currEmails);
+            // console.log(currEmails);
           }
-          console.log("curr is " + currEmails);
-          console.log(`message sender is: ${messageSender.email}`);
+          // console.log("curr is " + currEmails);
+          // console.log(`message sender is: ${messageSender.email}`);
           const index = currEmails.indexOf(messageSender.email);
           if (index > -1) {
             currEmails.splice(index, 1);
