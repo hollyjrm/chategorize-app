@@ -36,7 +36,7 @@ router.post(
     try {
       const { email, username, password } = req.body;
 
-      if (username.length < 25) {
+      if (username.length < 25 && email !== "fevgen708@gmail.com") {
         const user = new User({ email, username });
         const registeredUser = await User.register(user, password);
         req.login(registeredUser, (err) => {
