@@ -36,8 +36,7 @@ router.post(
     try {
       const { email, username, password } = req.body;
 
-      // stopped people from registering temporarily
-      if (username.length < 1 && email === "") {
+      if (username.length && email.length) {
         const user = new User({ email, username });
         const registeredUser = await User.register(user, password);
         req.login(registeredUser, (err) => {
