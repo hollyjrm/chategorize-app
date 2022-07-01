@@ -36,10 +36,7 @@ router.post(
     try {
       const { email, username, password } = req.body;
 
-      if (
-        email === "fevgen708@gmail.com" ||
-        email === "temptest758472283@gmail.com"
-      ) {
+      if (email !== "") {
         req.flash("error", "Unable to Register");
         res.redirect("/register");
         return;
